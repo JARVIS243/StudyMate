@@ -9,6 +9,14 @@ from supabase_client import (
     get_progress,
 )
 from charts import get_progress_summary
+from PIL import Image
+
+favicon = Image.open("studymateai.png")
+st.set_page_config(
+    page_title="StudyMate AI",
+    page_icon=studymateai,
+    layout="wide"
+)
 
 st.set_page_config(page_title="StudyMate", layout="wide")
 
