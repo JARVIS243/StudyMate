@@ -73,7 +73,7 @@ def login_ui():
             st.success("Login successful!")
             st.rerun()
         else:
-            st.error("Invalid credentials")
+            st.error("Tettipoyallo Suhurthe 😩")
     if st.button("Don't have an account? Register"):
         st.session_state.mode = "register"
         st.rerun()
@@ -85,7 +85,7 @@ def register_ui():
     password = st.text_input("Password", type="password")
     if st.button("Register"):
         if register_user(username, password, name):
-            st.success("Registered successfully! Please login. Nanniyunde 🙏")
+            st.success("Registered successfully! Please login.")
             st.session_state.mode = "login"
             st.rerun()
         else:
