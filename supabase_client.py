@@ -1,41 +1,61 @@
-# supabase_client.py
 import os
 from dotenv import load_dotenv
 from supabase import create_client
 
+# Load environment variables from .env file
 load_dotenv()
+
+# Get Supabase credentials
 url = os.environ["SUPABASE_URL"]
 key = os.environ["SUPABASE_KEY"]
+
+# Create Supabase client
 supabase = create_client(url, key)
 
-# Register new user
+# ------------------------------
+# Function: Register a new user
+# ------------------------------
 def register_user(username, password, name):
     existing = supabase.table("users").select("*").eq("username", username).execute()
     if existing.data:
         return False
-    supabase.table("users").insert({"username": username, "password": password, "name": name}).execute()
+    supabase.table("users").insert({
+        "username": username,
+        "password": password,
+        "name": name
+    }).execute()
     return True
 
-# Login
+# --------------------------
+# Function: Login user
+# --------------------------
 def login_user(username, password):
-    res = supabase.table("users").select("*").eq("username", username).eq("password", password).execute()
+    res = supabase.table("users").select("*")\
+        .eq("username", username).eq("password", password).execute()
     if res.data:
-        return res.data[0]  # return the whole user record
+        return res.data[0]  # Return user record
     return None
 
-# Save plan with username now
+# ------------------------------------
+# Function: Save a study plan
+# ------------------------------------
 def save_study_plan(username, plan_md):
     supabase.table("study_plans").insert({
         "username": username,
         "plan_md": plan_md
     }).execute()
 
-# Get plans for user
+# --------------------------------------------
+# Function: Get all plans for a user
+# --------------------------------------------
 def get_all_user_plans(username):
-    res = supabase.table("study_plans").select("*").eq("username", username).order("created_at", desc=True).execute()
+    res = supabase.table("study_plans").select("*")\
+        .eq("username", username).order("created_at", desc=True).execute()
     return [r["plan_md"] for r in res.data]
 
-# Save progress
+# ---------------------------------
+# Function: Save progress
+# ---------------------------------
 def save_progress(username, subject, topic):
     supabase.table("study_progress").insert({
         "username": username,
@@ -43,7 +63,10 @@ def save_progress(username, subject, topic):
         "topic": topic
     }).execute()
 
-# Get all progress
+# ---------------------------------------
+# Function: Get all progress for user
+# ---------------------------------------
 def get_progress(username):
-    res = supabase.table("study_progress").select("*").eq("username", username).execute()
+    res = supabase.table("study_progress").select("*")\
+        .eq("username", username).execute()
     return res.data
