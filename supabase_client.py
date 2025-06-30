@@ -1,11 +1,11 @@
 # supabase_client.py
 import os
-from supabase import create_client
+from dotenv import load_dotenv
 from supabase import create_client
 
 load_dotenv()
-url = os.environ("SUPABASE_URL")
-key = os.environ("SUPABASE_KEY")
+url = os.environ["SUPABASE_URL"]
+key = os.environ["SUPABASE_KEY"]
 supabase = create_client(url, key)
 
 # Register new user
@@ -17,7 +17,6 @@ def register_user(username, password, name):
     return True
 
 # Login
-
 def login_user(username, password):
     res = supabase.table("users").select("*").eq("username", username).eq("password", password).execute()
     if res.data:
