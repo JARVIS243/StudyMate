@@ -85,7 +85,7 @@ def register_ui():
     password = st.text_input("Password", type="password")
     if st.button("Register"):
         if register_user(username, password, name):
-            st.success("Registered successfully! Please login.")
+            st.success("Registered successfully! Please login. Nanniyunde 🙏")
             st.session_state.mode = "login"
             st.rerun()
         else:
